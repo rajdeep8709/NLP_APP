@@ -1,6 +1,3 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ae6ce23dc8ecfdb127e656d489e976ea0e8dd9561cba8894321d1cadc54a4b97
-size 3814
 This code base is a QA App using llama2 model and Gradio as a user interface for Question answering. In this QA App database can also be updated and start questioning on the same by uploading documents in pdf format. 
 
 How to run this QA App on your local system.
