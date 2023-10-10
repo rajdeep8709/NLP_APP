@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3f3b3d14c8f301c2e741c5e6fe60ebd76ee7680f524463adb7daafe01ef1ca86
-size 195
+ctransformers==0.2.5
+faiss-cpu==1.7.4
+fastapi>=0.96.0
+ipykernel>=6.23.1
+langchain==0.0.225
+PyYAML
+pypdf==3.8.1
+python-box==7.0.1
+python-dotenv==1.0.0
+sentence-transformers==2.2.2
+uvicorn>=0.22.0
+gradio
