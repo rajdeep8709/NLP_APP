@@ -1,3 +1,51 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:fc7347320c6309775cf3c9c9cafbd179d6968a0579d4ab8234dea699fdf41f86
-size 1533
+import box
+import timeit
+import yaml
+import argparse
+from dotenv import find_dotenv, load_dotenv
+from src.utils import setup_dbqa
+import gradio as gr
+
+
+# Load environment variables from .env file
+load_dotenv(find_dotenv())
+
+# Import config vars
+with open('config/config.yml', 'r', encoding='utf8') as ymlfile:
+    cfg = box.Box(yaml.safe_load(ymlfile))
+
+def submit(Question):
+	inputQuery = Question
+	start = timeit.default_timer()
+	dbqa = setup_dbqa()
+	#response = dbqa({'query': args.input})
+	response = dbqa({'query': inputQuery})
+	print(f'\nAnswer: {response["result"]}')
+	print('='*50)
+	# Process source documents
+	source_docs = response['source_documents']
+	end = timeit.default_timer()
+	for i, doc in enumerate(source_docs):
+		print(f'\nSource Document {i+1}\n')
+		print(f'Source Text: {doc.page_content}')
+		print(f'Document Name: {doc.metadata["source"]}')
+		print(f'Page Number: {doc.metadata["page"]}\n')
+		print('='* 60)
+	print(f"Time to retrieve response: {end - start}")
+	return response["result"]
+
+if __name__ == "__main__":
+    #parser = argparse.ArgumentParser()
+    #parser.add_argument('input',
+    #                    type=str,
+    #                    default='How much is the minimum guarantee payable by adidas?',
+    #                   help='Enter the query to pass into the LLM')
+    #args = parser.parse_args()
+
+    # Setup DBQA
+    
+	demo = gr.Interface(
+    fn=submit,
+    inputs=gr.Textbox(lines=2, placeholder="Name Here..."),
+    outputs="text",)
+	demo.launch(server_name="0.0.0.0", server_port=7860)
